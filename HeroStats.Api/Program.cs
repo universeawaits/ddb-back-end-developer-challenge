@@ -1,6 +1,6 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using HeroStats.Api;
 
-app.MapGet("/", () => "Hello World!");
+var builder = WebApplication.CreateBuilder(args).ConfigureBuilder();
+var app = builder.Build().ConfigureApplication();
 
-app.Run();
+await app.RunAsync();

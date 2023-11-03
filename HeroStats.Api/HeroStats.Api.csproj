@@ -4,14 +4,15 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>ddb_back_end_developer_challenge</RootNamespace>
-        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <RootNamespace>HeroStats.Api</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+      <ProjectReference Include="..\HeroStats.Infrastructure\HeroStats.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="DryIoc.Microsoft.DependencyInjection" Version="6.2.0" />
     </ItemGroup>
 
 </Project>

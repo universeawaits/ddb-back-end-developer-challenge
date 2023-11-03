@@ -6,4 +6,18 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="DryIoc.dll" Version="5.4.0" />
+      <PackageReference Include="MediatR" Version="12.1.1" />
+      <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+      <PackageReference Include="MongoDB.Driver" Version="2.22.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\HeroStats.Application\HeroStats.Application.csproj" />
+    </ItemGroup>
+
 </Project>
