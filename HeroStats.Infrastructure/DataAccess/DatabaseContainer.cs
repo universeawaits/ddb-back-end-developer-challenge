@@ -1,24 +1,13 @@
 ﻿using DryIoc;
-using HeroStats.Infrastructure.DataAccess.MongoDb;
-using Microsoft.Extensions.Configuration;
-using MongoDB.Driver;
+using HeroStats.Infrastructure.DataAccess.Concrete;
 
 namespace HeroStats.Infrastructure.DataAccess;
 
 public static class DatabaseContainer
 {
-    private const string DatabaseName = "HeroStats";
-    private const string ConnectionString = nameof(ConnectionString);
-
-    public static IRegistrator Database(this IRegistrator registrator, IConfiguration configuration)
+    public static IRegistrator Database(this IRegistrator registrator)
     {
-        registrator.RegisterInstance(new DatabaseSettings
-        {
-            ConnectionString = configuration[ConnectionString]!,
-            DatabaseName = DatabaseName,
-        });
-
-        registrator.Register<IDatabaseContext<IMongoDatabase>, MongoContext>(Reuse.Singleton);
+        registrator.Register<IDatabaseContext<IDictionary<Type, ICollection<object>>>, InMemoryDatabaseContext>(Reuse.Singleton);
 
         return registrator;
     }

@@ -11,7 +11,7 @@ public static class AppBuilder
     public static WebApplicationBuilder ConfigureBuilder(this WebApplicationBuilder builder)
     {
         builder.Configuration.AddConfiguration(AppConfigurationHelper.GetAppConfiguration());
-        var container = HeroStatsContainer.Build(builder.Configuration);
+        var container = HeroStatsContainer.Build();
 
         builder.Host.UseServiceProviderFactory(new DryIocServiceProviderFactory(container));
         builder.Services.AddHttpContextAccessor();

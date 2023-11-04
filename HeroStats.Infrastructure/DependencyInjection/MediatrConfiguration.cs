@@ -1,14 +1,10 @@
-﻿using HeroStats.Application.RequestPipeline;
-using MediatR;
+﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HeroStats.Infrastructure.DependencyInjection;
 
 public static class MediatrConfiguration
 {
-    public static void RegisterMediatR(this IServiceCollection serviceCollection)
-    {
-        serviceCollection.AddMediatR(typeof(HealRequest));
-        serviceCollection.AddMediatR(typeof(DamageRequest));
-    }
+    public static void RegisterMediatR(this IServiceCollection services) =>
+        services.AddMediatR(x => x.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 }

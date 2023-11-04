@@ -15,4 +15,8 @@
       <PackageReference Include="DryIoc.Microsoft.DependencyInjection" Version="6.2.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="Assets\Hero\briv.json" />
+    </ItemGroup>
+
 </Project>

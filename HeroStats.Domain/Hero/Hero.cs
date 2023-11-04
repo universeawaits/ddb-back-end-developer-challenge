@@ -1,19 +1,24 @@
 ﻿using HeroStats.Domain.Action.Damage;
-using HeroStats.Domain.Action.Health;
-using HeroStats.Domain.Hero.Belonging.Item;
-using HeroStats.Domain.Hero.Class;
 
 namespace HeroStats.Domain.Hero;
 
 public class Hero
 {
     public string Name { get; init; }
-    public uint Level { get; init; } // assuming permanent as per test task
-    public HitPoints HitPoints { get; private set; }
-    
-    public IDictionary<StatsType, uint> Stats { get; init; }
 
-    public ICollection<Item> Items { get; init; }
-    public ICollection<Defense> Defenses { get; init; }
-    public ISet<HeroClass> Classes { get; init; }
+    #region Hit points // TODO extract to a separate class; here exists only for serialization ease reasons
+
+    public uint HitPoints { get; init; }
+    public uint CurrentPersistent { get; private set; }
+    public uint Temporary { get; set; }
+
+    public void SetCurrentPersistent(uint value)
+    {
+        if (value <= HitPoints)
+            CurrentPersistent = Math.Max(value, 0);
+    }
+
+    #endregion
+
+    public ICollection<DamageDefense> Defenses { get; init; } = new List<DamageDefense>();
 }

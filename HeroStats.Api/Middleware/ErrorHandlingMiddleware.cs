@@ -1,5 +1,5 @@
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using HeroStats.Domain.Hero.DataAccess;
 
 namespace HeroStats.Api.Middleware;
 
@@ -28,7 +28,7 @@ public class ErrorHandlingMiddleware
 
         switch (exception)
         {
-            case ValidationException:
+            case HeroNotFoundException:
                 statusCode = StatusCodes.Status400BadRequest;
                 errorMessage = $"Bad request. {exception.Message}";
                 break;

@@ -5,8 +5,7 @@ namespace HeroStats.Application.RequestPipeline;
 
 public class DamageRequest : IRequest
 {
-    public DamageType Type { get; }
-    public uint Amount { get; }
-
-    public DamageRequest(DamageType type, uint amount) => (Type, Amount) = (type, amount);
+    public string Hero { get; init; }
+    public DamageType Type { get; init; }
+    public uint Amount { get; init; }
 }
