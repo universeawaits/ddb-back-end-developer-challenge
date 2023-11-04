@@ -1,9 +1,8 @@
 ﻿using HeroStats.Domain.Action.Damage;
-using HeroStats.Domain.Hero;
 using HeroStats.Domain.Hero.DataAccess;
 using MediatR;
 
-namespace HeroStats.Application.RequestPipeline;
+namespace HeroStats.Application.Hero;
 
 public class DamageRequestHandler : IRequestHandler<DamageRequest>
 {
@@ -20,7 +19,7 @@ public class DamageRequestHandler : IRequestHandler<DamageRequest>
         return Task.CompletedTask;
     }
 
-    private void ApplyDamageIfPossible(DamageRequest request, uint defense, Hero hero)
+    private void ApplyDamageIfPossible(DamageRequest request, uint defense, Domain.Hero.Hero hero)
     {
         var resultingDamage = defense >= request.Amount ? 0 : request.Amount - defense;
         if (resultingDamage is 0)
@@ -30,26 +29,28 @@ public class DamageRequestHandler : IRequestHandler<DamageRequest>
         _repository.Update(hero);
     }
 
-    private static void ApplyDamage(uint damage, Hero hero)
+    private static void ApplyDamage(uint damage, Domain.Hero.Hero hero)
     {
-        var damageToTemporaryHp = Math.Min(hero.Temporary, damage);
+        var damageToTemporaryHp = Math.Min(hero.TemporaryHp, damage);
         damage -= damageToTemporaryHp;
 
-        var damageToPersistentHp = Math.Min(hero.CurrentPersistent, damage);
+        var damageToPersistentHp = Math.Min(hero.CurrentPersistentHp, damage);
 
-        hero.Temporary -= damageToTemporaryHp;
-        hero.SetCurrentPersistent(hero.CurrentPersistent - damageToPersistentHp);
+        hero.TemporaryHp -= damageToTemporaryHp;
+        hero.SetCurrentPersistent(hero.CurrentPersistentHp - damageToPersistentHp);
     }
 
-    private static uint ApplicableDefense(DamageRequest request, Hero hero)
+    private static uint ApplicableDefense(DamageRequest request, Domain.Hero.Hero hero)
     {
-        var defense = hero.Defenses.SingleOrDefault(x => x.Type == request.Type);
-        var applicableDefense = defense?.Defense switch
+        var hasDefense = hero.Defenses.TryGetValue(request.Type, out var defense);
+        if (!hasDefense)
+            return 0u;
+
+        var applicableDefense = defense switch
         {
             DefenseType.Immunity => request.Amount,
             DefenseType.Resistance => request.Amount / 2,
-            null => 0u,
-            _ => throw new ArgumentOutOfRangeException($"Couldn't handle {defense.Defense} defense type"),
+            _ => throw new ArgumentOutOfRangeException($"Couldn't handle {defense} defense type"),
         };
 
         return applicableDefense;

@@ -1,7 +1,7 @@
 ﻿using HeroStats.Domain.Hero.DataAccess;
 using MediatR;
 
-namespace HeroStats.Application.RequestPipeline;
+namespace HeroStats.Application.Hero;
 
 public class HealRequestHandler : IRequestHandler<HealRequest>
 {
@@ -13,9 +13,9 @@ public class HealRequestHandler : IRequestHandler<HealRequest>
     {
         var hero = _repository.Get(request.Hero);
 
-        var oldHp = hero.CurrentPersistent;
-        hero.SetCurrentPersistent(hero.CurrentPersistent + request.Points);
-        if (oldHp != hero.CurrentPersistent)
+        var oldHp = hero.CurrentPersistentHp;
+        hero.SetCurrentPersistent(hero.CurrentPersistentHp + request.Points);
+        if (oldHp != hero.CurrentPersistentHp)
             _repository.Update(hero);
 
         return Task.CompletedTask;

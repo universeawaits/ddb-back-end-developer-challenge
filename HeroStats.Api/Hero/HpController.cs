@@ -1,5 +1,5 @@
 ﻿using HeroStats.Api.Hero.Dto;
-using HeroStats.Application.RequestPipeline;
+using HeroStats.Application.Hero;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

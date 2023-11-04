@@ -1,7 +1,7 @@
 ﻿using HeroStats.Domain.Hero.DataAccess;
 using MediatR;
 
-namespace HeroStats.Application.RequestPipeline;
+namespace HeroStats.Application.Hero;
 
 public class TemporaryHealRequestHandler : IRequestHandler<TemporaryHealRequest>
 {
@@ -12,8 +12,11 @@ public class TemporaryHealRequestHandler : IRequestHandler<TemporaryHealRequest>
     public Task Handle(TemporaryHealRequest request, CancellationToken cancellationToken)
     {
         var hero = _repository.Get(request.Hero);
-        hero.Temporary = Math.Max(hero.Temporary, request.Points);
-        _repository.Update(hero);
+
+        var oldHp = hero.TemporaryHp;
+        hero.TemporaryHp = Math.Max(hero.TemporaryHp, request.Points);
+        if (hero.TemporaryHp != oldHp)
+            _repository.Update(hero);
 
         return Task.CompletedTask;
     }

@@ -1,5 +1,5 @@
 ﻿using DryIoc;
-using HeroStats.Application.RequestPipeline;
+using HeroStats.Application.Hero;
 using HeroStats.Domain.Hero.DataAccess;
 using HeroStats.Infrastructure.Hero.Repository;
 using MediatR;
